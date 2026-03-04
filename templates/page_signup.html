@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/static/app.css">
+    <script src="/static/app.js" defer></script>
+    <title>
+        Signup
+    </title>
+</head>
+
+<body>
+    <!-- Dette er slette og istedet indsat tooltip
+    <h1>{{ x.user_username_MIN }}</h1>
+    <h1>{{ x.user_username_MAX }}</h1> -->
+
+    <!-- container for the tooltip -->
+    <div id="tooltip">
+
+    </div>
+
+    <form>
+        <label for="">Username</label>
+        <input name="user_username" type="text" mix-post="/check-username" mix-input mix-delay="1000"
+            mix-validate="^.{ {{ x.user_username_MIN }},{{ x.user_username_MAX }} }$">
+        <span></span> <!-- der var xxxxx i span kun for at se det i browser -->
+    </form>
+
+
+    <form mix-post="/api-create-user">
+
+        <label for="">Username</label>
+        <input name="user_username" type="text" 
+        mix-post="/api-check-username" 
+        mix-input
+        mix-input mix-delay="1000"
+        mix-validate="{{ x.USER_USERNAME_REGEX }}"
+        >
+        <span></span><!-- xxxxx i span kun for at synliggøre det i browser -->
+
+        <label for="">First name</label>
+        <input name="user_first_ username" type="text" 
+        mix-validate="{{ x.USER_FIRST_NAME_REGEX }}"
+        >
+
+        <button>
+            Create user
+        </button>
+    </form>
+
+    <script src="/static/mixhtml.js"></script>
+
+</body>
+
+</html>
