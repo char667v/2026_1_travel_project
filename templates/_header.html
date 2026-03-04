@@ -4,17 +4,22 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="/static/app.css">
-    <script src="/static/app.js" defer></script>
+    <!-- <script src="/static/app.js" defer></script> -->
     <title>
-        {{ title }}
+        Document
     </title>
 </head>
 <body>
-
+<div id="tooltip"></div>
     <nav>
         <a href="/">Home</a>
-        <a href="/items">Items</a>
-        <a href="/about-us">About us</a>
-        <a href="/contact-us">Contact us</a>
-        <a href="/sign-up">Sign up</a>
+        <a href="/sign-up">Signup</a>
+
+        {% if not not user %}
+            <a href="/login">Login</a>
+        {% else %}
+            <a href="/logout">Logout</a>
+        {% endif %}
+
+
     </nav>

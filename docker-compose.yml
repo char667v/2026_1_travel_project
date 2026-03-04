@@ -8,6 +8,7 @@ services:
       - mariadb
     ports:
       - 81:80 # 0 - 1024 reserved. Use any port from 1025 to 65535
+      # 81 = host port (my mac) 80 = container port (inside docker)
     volumes:
       - .:/app
 

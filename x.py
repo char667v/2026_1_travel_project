@@ -14,7 +14,7 @@ def db():
         )
         cursor = db.cursor(dictionary=True)
         return db, cursor
-    except Exception as e:
+    except Exception as e: #you are catching almost all normal errors
         print(e, flush=True)
         raise Exception("Database under maintenance", 500)
     
@@ -31,52 +31,12 @@ def no_cache(view):
     return no_cache_view
 
 ##############################
-# USER_FIRST_NAME_MIN = 2         #Det er med stort da det er en const in python
-# USER_FIRST_NAME_MAX = 20
-
-# def validate_user_first_name():
-#     user_first_name = request.form.get("user_first_name", "").strip()
-#     if len(user_first_name) < USER_FIRST_NAME_MIN:
-#         raise Exception(f"User first name ninimun {USER_FIRST_NAME_MIN} characters", 400)
-#     if len(user_first_name) > USER_FIRST_NAME_MAX:
-#         raise Exception(f"User first name ninimun {USER_FIRST_NAME_MAX} characters", 400)
-#     return user_first_name
-
-# #one action for one function - that is what Santiago likes - make it simpel
-
-##############################
 USER_FIRST_NAME_MIN = 2
 USER_FIRST_NAME_MAX = 20
-# ^.{2,20}$ <- venstre side er som at skrive det på højre side -> f"^.{{{USER_FIRST_NAME_MIN},{USER_FIRST_NAME_MAX}}}$"
-USER_FIRST_NAME_MAX_REGEX = f"^.{{{USER_FIRST_NAME_MIN},{USER_FIRST_NAME_MAX}}}$"
+# REGEX_FIRST_NAME_NAME = F"^.{{2,20}}$" dette er hvad vi skriver nedenunder
+REGEX_FIRST_NAME_NAME = F"^.{{{USER_FIRST_NAME_MIN},{USER_FIRST_NAME_MAX}}}$"
 def validate_user_first_name():
-    user_first_name = request.form.get("user_first_name", "").strip()  
-    if not re.match(USER_FIRST_NAME_REGEX, user_first_name): 
-        raise Exception(f"--error-- user_first_name")  
-
+    user_first_name = request.form.get("user_first_name", "").strip()
+    if not re.match(REGEX_FIRST_NAME_NAME, user_first_name):
+        raise Exception("company_exception") #company_exception is 
     return user_first_name
-
-##############################
-USER_LAST_NAME_MIN = 2
-USER_LAST_NAME_MAX = 20
-def validate_user_last_name():
-    user_last_name = request.form.get("user_last_name", "").strip()
-    if len(user_last_name) < USER_LAST_NAME_MIN:
-        raise Exception(f"User last name minimum {USER_LAST_NAME_MIN } characters", 400)
-    if len(user_last_name) > USER_LAST_NAME_MAX:
-        raise Exception(f"User last name maximum {USER_LAST_NAME_MAX } characters", 400)    
-    return user_last_name
-
-
-##############################
-USER_USERNAME_MIN = 2
-USER_USERNAME_MAX = 20
-USER_USERNAME_REGEX = f"^.{{{USER_USERNAME_MIN},{USER_USERNAME_MAX}}}$"
-def validate_user_username():
-    user_username = request.form.get("user_username", "").strip()
-    if not re.match(USER_USERNAME_REGEX, user_username):    #if the rule does not match then
-        raise Exception("--error-- user_username")          #there is a error in the first name and app.py fix it - line 88 in app.py
-    return user_username
-
-
-
