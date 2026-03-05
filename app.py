@@ -18,6 +18,7 @@ Session(app)
 
 ##############################
 @app.get("/signup")
+@x.no_cache
 def show_signup():
     try:
         user = session.get("user", "")
@@ -47,7 +48,12 @@ def api_create_user():
         cursor.execute(q, (user_pk, user_first_name, user_last_name, user_email, user_hashed_password, user_created_at)) #you have made a mistake if you only wrote user_password here!!
         db.commit()
         
-        return f"""<browser mix-redirect="/login"></browser>"""
+        form_signup = render_template("___form_signup.html", x=x)
+
+        return f"""
+        <browser mix-replace="form">{form_signup}</browser>
+        <browser mix-redirect="/login"></browser>
+        """
         
     except Exception as ex:
         ic(ex)
@@ -88,10 +94,13 @@ def api_create_user():
 
 ##############################
 @app.get("/login")
+@x.no_cache
 def show_login():
     try:
         user = session.get("user", "")
-        return render_template("page_login.html", user=user, x=x)
+        if not user:
+            return render_template("page_login.html", user=user, x=x) #if there is no user login
+        return redirect("/profile") #if there is we redirekt to profile
     except Exception as ex:
         ic(ex)
         return "ups"
@@ -144,3 +153,27 @@ def api_login():
     finally:
         if "cursor" in locals(): cursor.close()
         if "db" in locals(): db.close()
+
+##############################
+@app.get("/profile")
+@x.no_cache
+def show_profile():
+    try:
+        user = session.get("user", "")
+        if not user: return redirect("/login")
+        return render_template("page_profile.html", user=user, x=x)
+    
+    except Exception as ex:
+        ic(ex)
+        return "System under maintenace"
+    
+##############################
+@app.get("/logout")
+def show_logout():
+    try:
+        session.clear
+        return redirect("/login")
+
+    except Exception as ex:
+        ic(ex)
+        return "System under maintenace"
