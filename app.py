@@ -21,7 +21,7 @@ Session(app)
 def show_signup():
     try:
         user = session.get("user", "")
-        return render_template("page_signup.html", user=user)
+        return render_template("page_signup.html", user=user x=x)
     except Exception as ex:
         ic(ex)
         return "ups"
@@ -37,9 +37,18 @@ def api_create_user():
 
         user_hashed_password = generate_password_hash(user_password)
 
-        ic(user_hashed_password)
-        return "user_hashed_password" # dette gør vi selvfølgelig ikke!!!
-
+        # ic(user_hashed_password)
+        # return "user_hashed_password" # 2 måder at gøre det på - dette gør vi selvfølgelig ikke!!!
+        user_pk = uuid.uuid4().hex
+        user_created_at = int(time.time())
+        
+        db, cursor = x.db()
+        q = "INSERT INTO users VALUES(%s,%s,%s,%s,%s,%s)"
+        cursor.execute(q, (user_pk, user_first_name, user_last_name, user_email, user_hashed_password, user_created_at)) #you have made a mistake if you only wrote user_password here!!
+        db.commit()
+        
+        return f"""<browser mix-redirect="/login"></browser>"""
+        
     except Exception as ex:
         ic(ex)
 
@@ -62,8 +71,17 @@ def api_create_user():
             error_message = f"user password {x.USER_PASSWORD_MIN} to {x.USER_PASSWORD_MAX} characters"
             ___tip = render_template("___tip.html", status="error", message=error_message)
             return f"""<browser mix-after-begin="#tooltip">{___tip}</browser>""", 400 # 400 cus user made an error
+        
+        if "Duplicate entry" in str(ex) and "user_email" in str(ex):
+            error_message = "Email already exists"
+            ___tip = render_template("___tip.html", status="error", message=error_message)
+            return f"""<browser mix-after-begin="#tooltip">{___tip}</browser>""", 400
 
-        return "ups"
+        # Worst case
+        error_message = "System under maintenance"
+        ___tip = render_template("___tip.html", status="error", message=error_message)        
+        return f"""<browser mix-after-begin="#tooltip">{___tip}</browser>""", 500
+
     finally:
         if "cursor" in locals(): cursor.close()
         if "db" in locals(): db.close()
