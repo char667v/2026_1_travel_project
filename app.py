@@ -3,6 +3,9 @@ import x
 import uuid
 import time
 from flask_session import Session
+from werkzeug.security import generate_password_hash
+from werkzeug.security import check_password_hash
+ 
 
 # 2i see the" bug icecreme is a library
 from icecream import ic
@@ -32,7 +35,10 @@ def api_create_user():
         user_email = x.validate_user_email()
         user_password = x.validate_user_password()
 
-        return "ok"
+        user_hashed_password = generate_password_hash(user_password)
+
+        ic(user_hashed_password)
+        return "user_hashed_password" # dette gør vi selvfølgelig ikke!!!
 
     except Exception as ex:
         ic(ex)
