@@ -21,7 +21,7 @@ Session(app)
 def show_signup():
     try:
         user = session.get("user", "")
-        return render_template("page_signup.html", user=user x=x)
+        return render_template("page_signup.html", user=user, x=x)
     except Exception as ex:
         ic(ex)
         return "ups"
@@ -76,6 +76,65 @@ def api_create_user():
             error_message = "Email already exists"
             ___tip = render_template("___tip.html", status="error", message=error_message)
             return f"""<browser mix-after-begin="#tooltip">{___tip}</browser>""", 400
+
+        # Worst case
+        error_message = "System under maintenance"
+        ___tip = render_template("___tip.html", status="error", message=error_message)        
+        return f"""<browser mix-after-begin="#tooltip">{___tip}</browser>""", 500
+
+    finally:
+        if "cursor" in locals(): cursor.close()
+        if "db" in locals(): db.close()
+
+##############################
+@app.get("/login")
+def show_login():
+    try:
+        user = session.get("user", "")
+        return render_template("page_login.html", user=user, x=x)
+    except Exception as ex:
+        ic(ex)
+        return "ups"
+    
+##############################
+@app.post("/api-login")
+def api_login():
+    try:
+        user_email = x.validate_user_email()
+        user_password = x.validate_user_password()
+        
+        db, cursor = x.db() #connecting to the database
+        q = "SELECT * FROM users WHERE user_email = %s"
+        cursor.execute(q, (user_email,))
+        user = cursor.fetchone() # only one user 
+        if not user:          
+            error_message = "Invalid credentials 1"   
+            ___tip = render_template("___tip.html", status="error", message=error_message)
+            return f"""<browser mix-after-begin="#tooltip">{___tip}</browser>""", 400
+        
+        if not check_password_hash(user["user_password"],user_password):
+            error_message = "Invalid credentials 2"   
+            ___tip = render_template("___tip.html", status="error", message=error_message)
+            return f"""<browser mix-after-begin="#tooltip">{___tip}</browser>""", 400
+        
+        user.pop("user_password")
+        session["user"] = user
+        
+        return f"""<browser mix-redirect="/profile"></browser>"""
+        
+    except Exception as ex:
+        ic(ex)
+
+        
+        if "company_exception user_email" in str(ex):
+            error_message = f"user email invalid"
+            ___tip = render_template("___tip.html", status="error", message=error_message)
+            return f"""<browser mix-after-begin="#tooltip">{___tip}</browser>""", 400 # 400 cus user made an error
+        
+        if "company_exception user_password" in str(ex):
+            error_message = f"user password {x.USER_PASSWORD_MIN} to {x.USER_PASSWORD_MAX} characters"
+            ___tip = render_template("___tip.html", status="error", message=error_message)
+            return f"""<browser mix-after-begin="#tooltip">{___tip}</browser>""", 400 # 400 cus user made an error
 
         # Worst case
         error_message = "System under maintenance"

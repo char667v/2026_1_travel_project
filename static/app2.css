@@ -1,16 +1,29 @@
-
 *{
     margin: 0;
     padding: 0;
     box-sizing: border-box;
 }
 body{
-    width: 100%;
+    width: 60%;
     height: 100vh;
+    margin: 0px 50px;
+}
+form{
+    display: grid;
+    gap: 1rem;
+    div{
+        display: flex;
+        flex-direction: column;
+        input{
+            width: 100%;
+        }
+    }
 }
 label{
+    display: flex;
     span{
-        color:rgb(150, 150, 150);
+        margin-left: auto;
+        color: rgb(150, 150, 150);
     }
 }
 
@@ -32,7 +45,6 @@ label{
         background: red;
     }    
 }
-
 
 nav{
     width: 100%;
@@ -61,12 +73,9 @@ nav{
     }
 }
 
-
 .user{
     padding: 1rem;
 }
-
-
 
 footer{
     position: fixed;
