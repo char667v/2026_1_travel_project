@@ -29,18 +29,33 @@ def api_create_user():
     try:
         user_first_name = x.validate_user_first_name()
         user_last_name = x.validate_user_last_name()
+        user_email = x.validate_user_email()
+        user_password = x.validate_user_password()
+
+        return "ok"
+
     except Exception as ex:
         ic(ex)
 
         if "company_exception user_first_name" in str(ex):
             error_message = f"user first name {x.USER_FIRST_NAME_MIN} to {x.USER_FIRST_NAME_MAX} characters"
             ___tip = render_template("___tip.html", status="error", message=error_message)
-            return f"""<browser mix-after-begin="#tooltip">{___tip}</browser>"""
+            return f"""<browser mix-after-begin="#tooltip">{___tip}</browser>""", 400 # 400 cus user made an error
 
         if "company_exception user_last_name" in str(ex):
             error_message = f"user last name {x.USER_LAST_NAME_MIN} to {x.USER_LAST_NAME_MAX} characters"
             ___tip = render_template("___tip.html", status="error", message=error_message)
-            return f"""<browser mix-after-begin="#tooltip">{___tip}</browser>"""
+            return f"""<browser mix-after-begin="#tooltip">{___tip}</browser>""", 400 # 400 cus user made an error
+        
+        if "company_exception user_email" in str(ex):
+            error_message = f"user email invalid"
+            ___tip = render_template("___tip.html", status="error", message=error_message)
+            return f"""<browser mix-after-begin="#tooltip">{___tip}</browser>""", 400 # 400 cus user made an error
+        
+        if "company_exception user_password" in str(ex):
+            error_message = f"user password {x.USER_PASSWORD_MIN} to {x.USER_PASSWORD_MAX} characters"
+            ___tip = render_template("___tip.html", status="error", message=error_message)
+            return f"""<browser mix-after-begin="#tooltip">{___tip}</browser>""", 400 # 400 cus user made an error
 
         return "ups"
     finally:
