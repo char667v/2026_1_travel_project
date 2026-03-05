@@ -3,23 +3,23 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
     <link rel="stylesheet" href="/static/app.css">
-    <!-- <script src="/static/app.js" defer></script> -->
-    <title>
-        Document
-    </title>
+    
+    <title>Document</title>
 </head>
 <body>
-<div id="tooltip"></div>
+
+    <div id="tooltip"></div>
+
     <nav>
         <a href="/">Home</a>
-        <a href="/sign-up">Signup</a>
+        <a href="/signup">Signup</a>
 
-        {% if not not user %}
+        {% if not user %}
             <a href="/login">Login</a>
         {% else %}
             <a href="/logout">Logout</a>
         {% endif %}
-
 
     </nav>

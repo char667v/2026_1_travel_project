@@ -1,6 +1,6 @@
 from flask import request, make_response
 import mysql.connector
-import re #Regular expressions also called Regex
+import re # Regular expressions also called Regex
 from functools import wraps
 
 ##############################
@@ -10,14 +10,15 @@ def db():
             host = "mariadb",
             user = "root",  
             password = "password",
-            database = "2026_1_backend"
+            database = "2026_1_travel"
         )
         cursor = db.cursor(dictionary=True)
         return db, cursor
-    except Exception as e: #you are catching almost all normal errors
+    except Exception as e:#you are catching almost all normal errors
         print(e, flush=True)
         raise Exception("Database under maintenance", 500)
-    
+
+
 ##############################
 # function - runs only when you call it
 def no_cache(view):
@@ -30,13 +31,25 @@ def no_cache(view):
         return response
     return no_cache_view
 
+
 ##############################
 USER_FIRST_NAME_MIN = 2
 USER_FIRST_NAME_MAX = 20
 # REGEX_FIRST_NAME_NAME = F"^.{{2,20}}$" dette er hvad vi skriver nedenunder
-REGEX_FIRST_NAME_NAME = F"^.{{{USER_FIRST_NAME_MIN},{USER_FIRST_NAME_MAX}}}$"
+REGEX_USER_FIRST_NAME = f"^.{{{USER_FIRST_NAME_MIN},{USER_FIRST_NAME_MAX}}}$"
 def validate_user_first_name():
     user_first_name = request.form.get("user_first_name", "").strip()
-    if not re.match(REGEX_FIRST_NAME_NAME, user_first_name):
-        raise Exception("company_exception") #company_exception is 
+    if not re.match(REGEX_USER_FIRST_NAME, user_first_name):
+        raise Exception("company_exception user_first_name") #company_exception is 
     return user_first_name
+
+
+##############################
+USER_LAST_NAME_MIN = 2
+USER_LAST_NAME_MAX = 20
+REGEX_USER_LAST_NAME = f"^.{{{USER_LAST_NAME_MIN},{USER_LAST_NAME_MAX}}}$"
+def validate_user_last_name():
+    user_last_name = request.form.get("user_last_name", "").strip()
+    if not re.match(REGEX_USER_LAST_NAME, user_last_name):
+        raise Exception("company_exception user_last_name")
+    return user_last_name
