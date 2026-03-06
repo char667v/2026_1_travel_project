@@ -1,28 +1,25 @@
-
-    <form mix-post="/api-create-user" autocomplete="off">
-        <div>
-            <label for="">First name <span>{{USER_FIRST_NAME_MIN}} to {{USER_FIRST_NAME_MAX}}</span> </label>
-            <input name="user_first_name" type="text" placeholder="user first name" value="" mix-validate="{{x.REGEX_USER_FIRST_NAME }}"> <!-- value is hardcoded -->
-        </div>
-
+<form mix-post="/api-create-user" autocomplete="off">
     <div>
-        <label for="">Last name<span>{{USER_LAST_NAME_MIN}} to {{USER_LAST_NAME_MAX}}</span> </label>
-        <input name="user_last_name" type="text" placeholder="user last name" value=""
-            mix-validate="{{x.REGEX_USER_LAST_NAME}}">
+        <label for="user_first_name">First name<span>{{x.USER_FIRST_NAME_MIN}} {{x.USER_FIRST_NAME_MAX}}</span></label>
+        <input id="user_first_name" name="user_first_name" type="text" placeholder="user first name" value="" mix-validate="{{x.REGEX_USER_FIRST_NAME}}"><!-- hardcoded if text in value -->
     </div>
 
     <div>
-        <label for="">Email<span>{{USER_EMAIL}} to {{USER_EMAIL}}</span> </label>
-        <input name="user_email" type="text" placeholder="user email" value="" mix-validate="{{x.REGEX_USER_EMAIL}}">
+        <label for="user_last_name">Last name<span>{{x.USER_LAST_NAME_MIN}} {{x.USER_LAST_NAME_MAX}}</span></label>
+        <input id="user_last_name" name="user_last_name" type="text" placeholder="user last name" value="" mix-validate="{{x.REGEX_USER_LAST_NAME}}"><!-- hardcoded if text in value -->
     </div>
 
     <div>
-        <label for="">Password<span>{{USER_PASSWORD_MIN}} to {{USER_PASSWORD_MAX}}</span> </label>
-        <input name="user_password" type="password" placeholder="user password" value=""
-            mix-validate="{{x.REGEX_USER_PASSWORD}}">
+        <label for="user_email">Email<span>{{x.USER_EMAIL}} {{x.USER_EMAIL}}</span></label>
+        <input id="user_email" name="user_email" type="text" placeholder="user email" value="" mix-validate="{{x.REGEX_USER_EMAIL}}"><!-- hardcoded if text in value -->
     </div>
 
-        <button>
-            Signup
-        </button>
-    </form>
+    <div>
+        <label for="user_password">Password<span>{{x.USER_PASSWORD_MIN}} {{x.USER_PASSWORD_MAX}}</span></label>
+        <input id="user_password" name="user_password" type="password" placeholder="user password" value="" mix-validate="{{x.REGEX_USER_PASSWORD}}"><!-- hardcoded if text in value -->
+    </div>
+
+    <button type="submit">
+        Signup
+    </button>
+</form>

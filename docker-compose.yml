@@ -3,36 +3,36 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
-    container_name: 2026_1_travel_flask_2
+    container_name: 2026_1_travel_flask
     depends_on:
       - mariadb
     ports:
-      - 82:80 # 0 - 1024 reserved. Use any port from 1025 to 65535
-      # 82 = host port (my mac) 80 = container port (inside docker)
+      - 81:80 # 0 - 1024 reserved. Use any port from 1025 to 65535
+      # 81 = host port (my mac) 80 = container port (inside docker)
     volumes:
       - .:/app
 
   mariadb:
     image: mariadb:10.6.20
-    container_name: 2026_1_travel_mariadb_2
+    container_name: 2026_1_travel_mariadb
     environment:
       MYSQL_ROOT_PASSWORD: password
       MYSQL_DATABASE: 2026_1_travel
     volumes:
-      - mariadb_data_2:/var/lib/mysql
+      - mariadb_data:/var/lib/mysql
     ports:
-      - 3309:3306
+      - 3308:3306
 
   phpmyadmin:
     image: phpmyadmin/phpmyadmin
-    container_name: 2026_1_travel_phpmyadmin_2
+    container_name: 2026_1_travel_phpmyadmin
     depends_on:
       - mariadb
     environment:
       PMA_HOST: mariadb
       MYSQL_ROOT_PASSWORD: password
     ports:
-      - 8082:80
+      - 8081:80
 
 volumes:
-  mariadb_data_2:
+  mariadb_data:
