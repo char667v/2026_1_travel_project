@@ -1,33 +1,31 @@
-{% include "_header.html" %}
+<form mix-post="/api-create-user" autocomplete="off">
+    <div>
+        <label for=""> <span>{{USER_FIRST_NAME_MIN}} {{USER_FIRST_NAME_MAX}}</span> </label>
+        <!-- Har slettet first name og 2 -->
+        <input name="user_first_name" type="text" placeholder="user first name" value=""
+            mix-validate="{{x.REGEX_USER_FIRST_NAME }}"> <!-- value is hardcoded -->
+    </div>
 
+    <div>
+        <label for=""><span>{{USER_LAST_NAME_MIN}} {{USER_LAST_NAME_MAX}}</span> </label>
+        <!-- Har slettet last name og 2 -->
+        <input name="user_last_name" type="text" placeholder="user last name" value=""
+            mix-validate="{{x.REGEX_USER_LAST_NAME}}">
+    </div>
 
-    <form mix-post="/api-create-user" autocomplete="off">
-        <div>
-            <label for=""> <span>{{USER_FIRST_NAME_MIN}} {{USER_FIRST_NAME_MAX}}</span> </label> <!-- Har slettet first name og 2 -->
-            <input name="user_first_name" type="text" placeholder="user first name" value="" mix-validate="{{x.REGEX_USER_FIRST_NAME }}"> <!-- value is hardcoded -->
-        </div>
+    <div>
+        <label for=""> <span>{{USER_EMAIL}} {{USER_EMAIL}}</span> </label> <!-- Har slettet email og 2 -->
+        <input name="user_email" type="text" placeholder="user email" value="" mix-validate="{{x.REGEX_USER_EMAIL}}">
+    </div>
 
-        <div>
-            <label for=""><span>{{USER_LAST_NAME_MIN}} {{USER_LAST_NAME_MAX}}</span> </label> <!-- Har slettet last name og 2 -->
-            <input name="user_last_name" type="text" placeholder="user last name" value="" mix-validate="{{x.REGEX_USER_LAST_NAME}}">
-        </div>
+    <div>
+        <label for=""> <span>{{USER_PASSWORD_MIN}} {{USER_PASSWORD_MAX}}</span> </label>
+        <!-- Har slettet password og 2 -->
+        <input name="user_password" type="password" placeholder="user password" value=""
+            mix-validate="{{x.REGEX_USER_PASSWORD}}">
+    </div>
 
-        <div>
-            <label for=""> <span>{{USER_EMAIL}} {{USER_EMAIL}}</span> </label> <!-- Har slettet email og 2 -->
-            <input name="user_email" type="text" placeholder="user email" value="" mix-validate="{{x.REGEX_USER_EMAIL}}">
-        </div>
-
-        <div>
-            <label for=""> <span>{{USER_PASSWORD_MIN}} {{USER_PASSWORD_MAX}}</span> </label> <!-- Har slettet password og 2 -->
-            <input name="user_password" type="password" placeholder="user password" value="" mix-validate="{{x.REGEX_USER_PASSWORD}}">
-        </div>
-
-        <button>
-            Signup
-        </button>
-    </form>
-
-
-
-{% include "_footer.html" %}
-
+    <button>
+        Signup
+    </button>
+</form>

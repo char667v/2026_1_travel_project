@@ -224,9 +224,9 @@ button:active {
   align-items: center;
   gap: 0.4rem;
   /* border: 1px solid #ddd; */
-  background: white;
+  background: rgb(184, 209, 195);
   padding: 0.5rem 0.9rem;
-  border-radius: 20px;
+  border-radius: 100%;;
   /* font-size: 0.9rem; */
   cursor: pointer;
 }
