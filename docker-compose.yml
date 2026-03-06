@@ -30,12 +30,9 @@ services:
       - mariadb
     environment:
       PMA_HOST: mariadb
-      MYSQL_ROOT_PASSWORD: password
+      MYSQL_ROOT_PASSWORD: password2
     ports:
       - 8082:80
 
 volumes:
   mariadb_data_2:
-
-
-
