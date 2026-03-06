@@ -4,14 +4,22 @@
     <form mix-post="/api-login" autocomplete="off">
         
         <div>
-            <label for="">Email</label>
-            <input name="user_email" type="text" placeholder="user email" value="" mix-validate="{{x.REGEX_USER_EMAIL}}">
+            <label for="">
+                Email
+            </label>
+            <input name="user_email" type="text" placeholder="user email" value="" 
+            mix-validate="{{x.REGEX_USER_EMAIL}}">
         </div>
 
         <div>
-            <label for="">Password <span>{{ x.USER_PASSWORD_MIN }} to {{ x.USER_PASSWORD_MAX }} characters</span></label>
-            <input name="user_password" type="text" placeholder="user password" value="" mix-validate="{{x.REGEX_USER_PASSWORD}}">
+            <label for="">
+                Password <span>{{ x.USER_PASSWORD_MIN }} to {{ x.USER_PASSWORD_MAX }} characters</span>
+            </label>
+            <input name="user_password" type="text" placeholder="user password" value="" 
+            mix-validate="{{x.REGEX_USER_PASSWORD}}">
         </div>
+
+
 
         <button>
             Login
@@ -20,29 +28,4 @@
 </main>
 
 {% include "_footer.html" %}
-
-
-<!-- Vær opmærksom på hvilke fejl du har forneden -->
-<!-- {% include "_header.html" %}
-
-<main>
-    <form mix-post="/api-login" autocomplete="off">
-        <div>
-            <label for="">Email <span>{{USER_EMAIL}} to {{USER_EMAIL}}</span> </label>
-            <input name="user_email" type="text" placeholder="user email" value="" mix-validate="{{x.REGEX_USER_EMAIL}}">
-        </div>
-
-        <div>
-            <label for="">Password <span>{{USER_PASSWORD_MIN}} to {{USER_PASSWORD_MAX}}</span> </label>
-            <input name="user_password" type="text" placeholder="user password" value="" mix-validate="{{x.REGEX_USER_EMAIL}}">
-        </div>
-
-        <button>
-            Login
-        </button>
-    </form>
-</main>
-
-
-{% include "_footer.html" %} -->
-
+    
