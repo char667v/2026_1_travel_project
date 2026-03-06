@@ -1,88 +1,295 @@
-*{
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
-body{
-    width: 60%;
-    height: 100vh;
-    margin: 0px 50px;
-}
-form{
-    display: grid;
-    gap: 1rem;
-    div{
-        display: flex;
-        flex-direction: column;
-        input{
-            width: 100%;
-        }
-    }
-}
-label{
-    display: flex;
-    span{
-        margin-left: auto;
-        color: rgb(150, 150, 150);
-    }
+/* ===== Reset (intakt) ===== */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
 
-#tooltip{
-    position: fixed; top: 3rem; left: 0;
-    z-index: 10;
+/* ===== NEW: theme vars (added) ===== */
+:root {
+  --card-radius: 28px;
+  --shadow: 0 30px 80px rgba(0, 0, 0, 0.25);
+  --green: #2f5b46;
+  --green-dark: #244636;
+
+  /* ✅ Skift til dit billede */
+  --hero-image: url("/static/hero.jpg");
+}
+
+/* ===== Body (tilpasset men samme idé: 100vh) ===== */
+body {
+  /* din: width:60% + margin gav ikke “centered card”. Vi laver et centered layout */
+  min-height: 100vh;
+  display: grid;
+  place-items: center;
+  padding: 32px 18px;
+
+  /* baggrund som på billedet */
+  background-image: linear-gradient(rgba(0, 0, 0, 0.35), rgba(0, 0, 0, 0.35)), var(--hero-image);
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
+}
+
+/* ===== Tooltip (intakt, men flatten nesting) ===== */
+#tooltip {
+  position: fixed;
+  top: 3rem;
+  left: 0;
+  z-index: 10;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  pointer-events: none;
+}
+#tooltip span {
+  padding: 1rem 2rem;
+  color: white;
+}
+#tooltip .ok {
+  background: green;
+}
+#tooltip .error {
+  background: red;
+}
+
+/* ===== Nav (intakt, men flatten nesting) ===== */
+nav {
+  width: min(1050px, 100%);
+  height: 3rem;
+  background-color: rgba(128, 128, 128, 0.55);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 14px;
+  border-radius: 14px;
+  margin-bottom: 16px;
+}
+nav a {
+  color: white;
+  text-decoration: none;
+  font-weight: 600;
+}
+
+/* ===== NEW: Main signup card (added) ===== */
+/* Din page_signup.html har: <main> ... </main> direkte i body */
+body > main {
+  width: min(1050px, 100%);
+  min-height: 560px;
+  background: #fff;
+  border-radius: var(--card-radius);
+  box-shadow: var(--shadow);
+  overflow: hidden;
+
+  display: grid;
+  grid-template-columns: 1fr 1.1fr;
+  position: relative;
+}
+
+/* højre billed-panel */
+body > main::after {
+  content: "";
+  grid-column: 2 / 3;
+  background-image: var(--hero-image);
+  background-size: cover;
+  background-position: center;
+
+  margin: 18px;
+  border-radius: 22px;
+}
+
+/* venstre panel (dit indhold ligger inde i body > main > main pga. din partial har også <main>) */
+body > main > main {
+  grid-column: 1 / 2;
+  padding: 56px 56px 46px;
+  display: grid;
+  align-content: center;
+}
+
+/* fjern ekstra spacing fra nested <main> i partial */
+body > main > main > main {
+  padding: 0;
+  margin: 0;
+}
+
+h1 {
+  padding-top: 30px;
+}
+/* ===== Form (intakt men opgraderet visuelt) ===== */
+form {
+  display: grid;
+  gap: 1rem;
+  /* width: min(420px, 60%); */
+  margin: 20px 60px 60px 60px;
+  justify-content: center;
+}
+
+/* din nesting: form div { ... } */
+form div {
+  display: flex;
+  flex-direction: column;
+  /* gap: 8px; */
+  min-width: 280px;
+}
+
+form div input {
+  width: 100%;
+}
+
+/* inputs som “pills” */
+input {
+  height: 44px;
+  border-radius: 999px;
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  background: rgba(0, 0, 0, 0.03);
+  padding: 0 16px;
+  outline: none;
+  font-size: 14px;
+}
+input::placeholder {
+  color: rgba(0, 0, 0, 0.45);
+}
+input:focus {
+  border-color: rgba(47, 91, 70, 0.45);
+  box-shadow: 0 0 0 4px rgba(47, 91, 70, 0.14);
+  background: #fff;
+}
+
+/* Labels (intakt men flatten nesting + spacing) */
+label {
+  display: flex;
+  align-items: baseline;
+  gap: 12px;
+  font-size: 13px;
+  font-weight: 650;
+  color: rgba(0, 0, 0, 0.75);
+}
+label span {
+  margin-left: auto;
+  color: rgb(150, 150, 150);
+  font-weight: 500;
+  font-size: 12px;
+}
+
+/* Button (added) */
+button {
+  margin-top: 6px;
+  height: 46px;
+  border: 0;
+  border-radius: 999px;
+  background: var(--green);
+  color: #fff;
+  font-weight: 700;
+  cursor: pointer;
+  transition:
+    transform 0.06s ease,
+    background 0.18s ease;
+}
+button:hover {
+  background: var(--green-dark);
+}
+button:active {
+  transform: translateY(1px);
+}
+
+/* ===== #items (intakt, men flatten nesting) ===== */
+#items {
+  width: 100%;
+  height: 100%;
+  display: grid;
+  grid-template-columns: 10fr 4fr;
+}
+#items #right {
+  padding: 1rem;
+  border-left: 1px solid black;
+  box-shadow: 0px 0px 10px black;
+}
+
+/* ===== .user (intakt) ===== */
+.user {
+  padding: 1rem;
+}
+
+/* social buttons */
+.social {
+  display: flex;
+  gap: 0.6rem;
+  padding: 8px;
+}
+
+.social-btn {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  /* border: 1px solid #ddd; */
+  background: white;
+  padding: 0.5rem 0.9rem;
+  border-radius: 20px;
+  /* font-size: 0.9rem; */
+  cursor: pointer;
+}
+
+.social-btn:hover {
+  background: #f5f5f5;
+}
+
+.social-btn svg {
+  display: block;
+}
+
+/* divider */
+.divider {
+  text-align: center;
+  color: #777;
+  font-size: 0.9rem;
+}
+
+/* ===== Footer (intakt) ===== */
+footer {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 0.5rem;
+  background-color: gray;
+}
+
+/* ===== Responsive (added) ===== */
+@media (max-width: 920px) {
+  nav {
     width: 100%;
-    display: flex;
-    justify-content: center;
-    pointer-events: none;
-    span{
-        padding: 1rem 2rem;
-        color: white;
-    }
-    .ok{
-        background: green;
-    }
-    .error{
-        background: red;
-    }    
+    border-radius: 0;
+    margin-bottom: 0;
+  }
+
+  body > main {
+    grid-template-columns: 1fr;
+    min-height: auto;
+  }
+  body > main::after {
+    grid-column: 1 / 2;
+    height: 320px;
+    order: -1;
+    margin: 18px 18px 0;
+  }
+  body > main > main {
+    padding: 34px 22px 26px;
+  }
+}
+#signup .left {
+  align-items: center;
+  text-align: center;
+  gap: 1rem;
+  padding-top: 2rem;
 }
 
-nav{
-    width: 100%;
-    height: 3rem;
-    background-color: gray;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    a{
-        color: white;
-    }
+#signup .social {
+  justify-content: center;
 }
 
-#items{
-    width: 100%;
-    height: 100%;
-    display: grid;
-    grid-template-columns: 10fr 4fr;
-    #left{
-
-    }
-    #right{
-        padding: 1rem;
-        border-left: 1px solid black;
-        box-shadow: 0px 0px 10px black;
-    }
+#signup .divider {
+  text-align: center;
+  padding: 20px 0px;
 }
-
-.user{
-    padding: 1rem;
-}
-
-footer{
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    width: 100%;
-    height: 0.5rem;
-    background-color: gray;
-}
-
