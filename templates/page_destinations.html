@@ -1,0 +1,37 @@
+{% include "_header.html" %}
+
+<main class="destinations-page">
+    <h1>Destinations</h1>
+
+    <section class="destinations-grid">
+        {% for destination in destinations %}
+        <article class="destination-card">
+            <a href="/destinations/{{ destination.destination_pk }}" class="destination-image-link">
+                <img
+                    src="{{ destination.destination_image }}"
+                    alt="{{ destination.destination_title }}"
+                    class="destination-image"
+                >
+            </a>
+
+            <div class="destination-content">
+                <h2>
+                    <a href="/destinations/{{ destination.destination_pk }}">
+                        {{ destination.destination_title }}
+                    </a>
+                </h2>
+
+                <p>{{ destination.destination_location }}, {{ destination.destination_country }}</p>
+                <p>{{ destination.destination_date_from }} to {{ destination.destination_date_to }}</p>
+                <p>{{ destination.destination_description }}</p>
+
+                <div class="destination-actions">
+                    <a href="/destinations/{{ destination.destination_pk }}">View</a>
+                </div>
+            </div>
+        </article>
+        {% endfor %}
+    </section>
+</main>
+
+{% include "_footer.html" %}

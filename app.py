@@ -177,3 +177,125 @@ def show_logout():
     except Exception as ex:
         ic(ex)
         return "System under maintenace"
+    
+##############################
+@app.post("/api-destination-create")
+def api_destination_create():
+    try:
+        user = session.get("user")
+        if not user:
+            return jsonify({"error": "unauthorized"}), 401
+
+        destination_title = request.form.get("destination_title", "").strip()
+        if not destination_title:
+            return jsonify({"error": "title required"}), 400
+
+        destination_date_from = request.form.get("destination_date_from")
+        destination_date_to = request.form.get("destination_date_to")
+        destination_description = request.form.get("destination_description")
+        destination_location = request.form.get("destination_location")
+        destination_country = request.form.get("destination_country")
+        destination_image = request.form.get("destination_image")
+
+        destination_pk = uuid.uuid4().hex
+        destination_created_at = int(time.time())
+
+        db, cursor = x.db()
+
+        q = """
+        INSERT INTO destinations
+        VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s)
+        """
+
+        cursor.execute(q, (
+            destination_pk,
+            destination_title,
+            destination_date_from,
+            destination_date_to,
+            destination_description,
+            destination_location,
+            destination_country,
+            destination_image,
+            destination_created_at
+        ))
+
+        db.commit()
+
+        # return jsonify({"message": "destination created"}) 
+        return f"""<browser mix-redirect="/destinations/{destination_pk}"></browser>""" # redirects to a single destination page
+
+    except Exception as ex:
+        ic(ex)
+        return jsonify({"error": "system error"}), 500
+
+    finally:
+        if "cursor" in locals(): cursor.close()
+        if "db" in locals(): db.close()
+
+##############################
+@app.get("/destinations/create")
+@x.no_cache
+def show_create_destination():
+    try:
+        user = session.get("user", "")
+        if not user:
+            return redirect("/login")
+        return render_template("page_create_destination.html", user=user)
+    except Exception as ex:
+        ic(ex)
+        return "System under maintenance"
+
+##############################
+@app.get("/destinations/<destination_pk>")
+@x.no_cache
+def show_destination(destination_pk):
+    try:
+        user = session.get("user", "")
+        db, cursor = x.db()
+
+        q = "SELECT * FROM destinations WHERE destination_pk = %s"
+        cursor.execute(q, (destination_pk,))
+        destination = cursor.fetchone()
+
+        if not destination:
+            return "Destination not found", 404
+
+        return render_template(
+            "page_destination.html",
+            user=user,
+            destination=destination
+        )
+
+    except Exception as ex:
+        ic(ex)
+        return "System under maintenance"
+
+    finally:
+        if "cursor" in locals(): cursor.close()
+        if "db" in locals(): db.close()
+
+##############################
+@app.get("/")
+@x.no_cache
+def show_destinations():
+    try:
+        user = session.get("user", "")
+
+        db, cursor = x.db()
+        q = "SELECT * FROM destinations ORDER BY destination_created_at DESC"
+        cursor.execute(q)
+        destinations = cursor.fetchall()
+
+        return render_template(
+            "page_destinations.html",
+            user=user,
+            destinations=destinations
+        )
+
+    except Exception as ex:
+        ic(ex)
+        return "System under maintenance"
+
+    finally:
+        if "cursor" in locals(): cursor.close()
+        if "db" in locals(): db.close()

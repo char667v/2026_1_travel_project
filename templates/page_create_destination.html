@@ -1,0 +1,45 @@
+{% include "_header.html" %}
+
+<main>
+    <h1>Create destination</h1>
+
+    <form mix-post="/api-destination-create" autocomplete="off">
+        <div>
+            <label>Title</label>
+            <input name="destination_title" type="text" placeholder="Destination title" required>
+        </div>
+
+        <div>
+            <label>Date from</label>
+            <input name="destination_date_from" type="date" required>
+        </div>
+
+        <div>
+            <label>Date to</label>
+            <input name="destination_date_to" type="date" required>
+        </div>
+
+        <div>
+            <label>Description</label>
+            <textarea name="destination_description" placeholder="Description"></textarea>
+        </div>
+
+        <div>
+            <label>Location</label>
+            <input name="destination_location" type="text" placeholder="Location">
+        </div>
+
+        <div>
+            <label>Country</label>
+            <input name="destination_country" type="text" placeholder="Country">
+        </div>
+
+        <button>Create destination</button>
+    </form>
+    <div>
+        <label>Image URL</label>
+        <input name="destination_image" type="text" placeholder="Image URL">
+    </div>
+</main>
+
+{% include "_footer.html" %}
