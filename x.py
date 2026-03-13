@@ -72,3 +72,4 @@ def validate_user_password():
     if not re.match(REGEX_USER_LAST_NAME, user_password):
         raise Exception("company_exception user_password")
     return user_password
+

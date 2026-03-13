@@ -1,0 +1,39 @@
+{% include "_header.html" %}
+<main>
+<h1>{{ destination.destination_title }}</h1>
+<form mix-put="/api-destination-update/{{ destination.destination_pk }}" autocomplete="off">
+<div>
+<label>Title</label>
+<input name="destination_title" type="text" value="{{ destination.destination_title }}" required>
+</div>
+<div>
+<label>Date from</label>
+<input name="destination_date_from" type="date" value="{{ destination.destination_date_from }}">
+</div>
+<div>
+<label>Date to</label>
+<input name="destination_date_to" type="date" value="{{ destination.destination_date_to }}">
+</div>
+<div>
+<label>Description</label>
+<textarea name="destination_description">{{ destination.destination_description }}</textarea>
+</div>
+<div>
+<label>Location</label>
+<input name="destination_location" type="text" value="{{ destination.destination_location }}">
+</div>
+<div>
+<label>Country</label>
+<input name="destination_country" type="text" value="{{ destination.destination_country }}">
+</div>
+<button>Update destination</button>
+</form>
+<div>
+<label>Image URL</label>
+<input name="destination_image" type="text" value="{{ destination.destination_image }}">
+</div>
+{% if user %}
+<button onclick="if(confirm('Are you sure you want to delete this destination?')) { fetch('/api-destination-delete/{{ destination.destination_pk }}', {method: 'DELETE'}).then(() => window.location.href = '/') }">Delete destination</button>
+{% endif %}
+</main>
+{% include "_footer.html" %}

@@ -171,7 +171,7 @@ def show_profile():
 @app.get("/logout")
 def show_logout():
     try:
-        session.clear
+        session.clear()
         return redirect("/login")
 
     except Exception as ex:
@@ -295,6 +295,92 @@ def show_destinations():
     except Exception as ex:
         ic(ex)
         return "System under maintenance"
+
+    finally:
+        if "cursor" in locals(): cursor.close()
+        if "db" in locals(): db.close()
+
+##############################
+@app.put("/api-destination-update/<destination_pk>")
+def api_destination_update(destination_pk):
+    try:
+        user = session.get("user")
+        if not user:
+            return jsonify({"error": "unauthorized"}), 401
+
+        destination_title = request.form.get("destination_title", "").strip()
+        if not destination_title:
+            error_message = "Title is required"
+            ___tip = render_template("___tip.html", status="error", message=error_message)
+            return f"""<browser mix-after-begin="#tooltip">{___tip}</browser>""", 400
+
+        destination_date_from = request.form.get("destination_date_from")
+        destination_date_to = request.form.get("destination_date_to")
+        destination_description = request.form.get("destination_description")
+        destination_location = request.form.get("destination_location")
+        destination_country = request.form.get("destination_country")
+        destination_image = request.form.get("destination_image")
+
+        db, cursor = x.db()
+
+        q = """
+        UPDATE destinations
+        SET destination_title = %s,
+            destination_date_from = %s,
+            destination_date_to = %s,
+            destination_description = %s,
+            destination_location = %s,
+            destination_country = %s,
+            destination_image = %s
+        WHERE destination_pk = %s
+        """
+
+        cursor.execute(q, (
+            destination_title,
+            destination_date_from,
+            destination_date_to,
+            destination_description,
+            destination_location,
+            destination_country,
+            destination_image,
+            destination_pk
+        ))
+
+        db.commit()
+
+        return f"""<browser mix-redirect="/destinations/{destination_pk}"></browser>"""
+
+    except Exception as ex:
+        ic(ex)
+        error_message = "System under maintenance"
+        ___tip = render_template("___tip.html", status="error", message=error_message)
+        return f"""<browser mix-after-begin="#tooltip">{___tip}</browser>""", 500
+
+    finally:
+        if "cursor" in locals(): cursor.close()
+        if "db" in locals(): db.close()
+
+##############################
+@app.delete("/api-destination-delete/<destination_pk>")
+def api_destination_delete(destination_pk):
+    try:
+        user = session.get("user")
+        if not user:
+            return jsonify({"error": "unauthorized"}), 401
+
+        db, cursor = x.db()
+
+        q = "DELETE FROM destinations WHERE destination_pk = %s"
+        cursor.execute(q, (destination_pk,))
+        db.commit()
+
+        return f"""<browser mix-redirect="/"></browser>"""
+
+    except Exception as ex:
+        ic(ex)
+        error_message = "System under maintenance"
+        ___tip = render_template("___tip.html", status="error", message=error_message)
+        return f"""<browser mix-after-begin="#tooltip">{___tip}</browser>""", 500
 
     finally:
         if "cursor" in locals(): cursor.close()
