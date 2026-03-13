@@ -199,12 +199,13 @@ def api_destination_create():
 
         destination_pk = uuid.uuid4().hex
         destination_created_at = int(time.time())
+        user_fk = user["user_pk"]
 
         db, cursor = x.db()
 
         q = """
         INSERT INTO destinations
-        VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s)
+        VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)
         """
 
         cursor.execute(q, (
@@ -216,7 +217,8 @@ def api_destination_create():
             destination_location,
             destination_country,
             destination_image,
-            destination_created_at
+            destination_created_at,
+            user["user_pk"]
         ))
 
         db.commit()

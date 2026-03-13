@@ -5,6 +5,10 @@
 
     <form mix-post="/api-destination-create" autocomplete="off">
         <div>
+            <label>Image URL</label>
+            <input name="destination_image" type="text" placeholder="Image URL">
+        </div>
+        <div>
             <label>Title</label>
             <input name="destination_title" type="text" placeholder="Destination title" required>
         </div>
@@ -36,10 +40,7 @@
 
         <button>Create destination</button>
     </form>
-    <div>
-        <label>Image URL</label>
-        <input name="destination_image" type="text" placeholder="Image URL">
-    </div>
+
 </main>
 
 {% include "_footer.html" %}
