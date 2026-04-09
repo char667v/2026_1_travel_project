@@ -387,3 +387,17 @@ def api_destination_delete(destination_pk):
     finally:
         if "cursor" in locals(): cursor.close()
         if "db" in locals(): db.close()
+
+##################################################################################################################
+#### Calling backend from NextJs slide 15 i FRONTEND - 07 - Custom Hooks, useEffect, REST, Calling the backend####
+@app.get("/products")
+def get_products():
+    try:
+        return jsonify([
+            {"id": 1, "name": "T-shirt", "price": 199, "category": "clothing"},
+            {"id": 2, "name": "Sneakers", "price": 799, "category": "shoes"},
+            {"id": 3, "name": "Backpack", "price": 499, "category": "accessories"}
+        ])
+    except Exception as ex:
+        ic(ex)
+        return jsonify({"error": "system error"}), 500
